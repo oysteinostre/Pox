@@ -148,7 +148,7 @@ Below is a recommended distribution to meet all requirements and maximize your h
 | **Perception (C)** | **+13** | **7** | 0 Wis | +3 Class, +2 Halfling, +1 Trapfinding *(to locate traps)* |
 | **Sleight of Hand (C)** | **+13** | **7** | +3 Dex | +3 Class *(Required for Ranged Legerdemain)* |
 | **Spellcraft (C)** | **+11** | **5** | +3 Int | +3 Class |
-| **Stealth (C)** | **+17** | **7** | +3 Dex | +3 Class, +4 Small size |
+| **Stealth (C)** | **+19** | **7** | +3 Dex | +3 Class, +4 Small size, +2 Slippers of Sneakiness |
 | **Use Magic Device (C)** | **+5** | **1** | +1 Cha | +3 Class |
 
 *Ranks allocation: Rogue levels (11 per level = 33) + Wizard levels (5 per level = 15) + Arcane Trickster level (7) = 55 ranks.*
@@ -176,6 +176,9 @@ Below is a recommended distribution to meet all requirements and maximize your h
 *   **Spinning skeleton toy / music box (snurrebass?)**
     *   *Properties*: Curio item containing spinning skeletons.
     *   *Source*: Obtained from **Smugler's Cove**.
+*   **Slippers of Sneakiness** *(Very pointy shoes)*
+    *   *Properties*: Grants +2 to Stealth checks (applied).
+    *   *Weight*: 0.5 lbs. (Halfling sized)
 
 ### 💰 Shares / Party Wealth (Stored in shared Bag of Holding)
 *   *Platina*: 350 pp
