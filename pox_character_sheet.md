@@ -95,13 +95,20 @@
 *   **Ranged Legerdemain (Su)**: Use Disable Device and Sleight of Hand at a range of 30 feet. DC increases by +5, cannot take 10. Max item weight 5 lbs. Requires 1 rank in the skill.
 *   **Spells per Day**: Gained +1 level of Wizard spellcasting (casts as a Level 4 Wizard).
 
-### Feats
+### Feats, Talents & Special Abilities (Chronological)
 1.  **Level 1**: **Improved Initiative** *(+4 Initiative)*
-2.  **Rogue 2 Talent**: **Weapon Finesse** *(Finesse Rogue talent)*
-3.  **Level 3**: **Point-Blank Shot** *(+1 to hit/damage with ranged attacks/rays within 30 ft.)*
-4.  **Level 5**: **Precise Shot** *(No -4 penalty for shooting into melee)*
-5.  **Level 7**: **Accomplished Sneak Attacker** *(Increases sneak attack by +1d6 to +3d6)*
-6.  **Wizard 1 Bonus**: **Scribe Scroll** *(Create magic scrolls)*
+2.  **Rogue 1**: **Trapfinding** *(+1 to locate traps/Disable Device, bypass magic traps)*
+3.  **Rogue 2**: **Evasion (Ex)** *(No damage on successful Reflex save for half)*
+4.  **Rogue 2**: **Weapon Finesse (Rogue Talent)** *(Use Dex for light weapon attack rolls)*
+5.  **Level 3**: **Point-Blank Shot** *(+1 to hit/damage with ranged/rays within 30 ft.)*
+6.  **Rogue 3**: **Trap Sense +1 (Ex)** *(+1 saves/AC vs. traps)*
+7.  **Wizard 1**: **Arcane Bond (Familiar)** *(Greensting Scorpion familiar, +4 Initiative)*
+8.  **Wizard 1**: **Arcane School (Universalist)** *(Hand of the Apprentice 6/day)*
+9.  **Wizard 1**: **Cantrips** *(Infinite casting of 0-level spells)*
+10. **Wizard 1**: **Scribe Scroll (Bonus Feat)** *(Create magic scrolls)*
+11. **Level 5**: **Precise Shot** *(No -4 penalty for shooting into melee)*
+12. **Arcane Trickster 1**: **Ranged Legerdemain (Su)** *(Disable Device/Sleight of Hand at 30 ft.)*
+13. **Level 7**: **Accomplished Sneak Attacker** *(Increases sneak attack by +1d6 to +3d6)*
 
 ---
 
