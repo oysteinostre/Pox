@@ -1,0 +1,5 @@
+# Exclude heavy & private files
+Pathfinder - Core Rulebook (5th Printing).pdf
+RPG - saker og ting.xlsx
+domeneshop_credentials.json
+.DS_Store

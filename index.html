@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pox - Character Sheet</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Reset & CSS Variables */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    :root {
+      --bg-main: #0a0c10;
+      --bg-panel: rgba(22, 28, 38, 0.75);
+      --bg-card: rgba(30, 39, 54, 0.5);
+      --border-color: rgba(49, 62, 85, 0.5);
+      --border-glow: rgba(16, 185, 129, 0.2);
+      
+      --color-text-main: #f3f4f6;
+      --color-text-muted: #9ca3af;
+      --color-text-dark: #4b5563;
+      
+      --color-rogue: #10b981; /* Emerald Green */
+      --color-wizard: #e0a96d; /* Amber/Gold */
+      --color-trickster: #ec4899; /* Deep Pink */
+      --color-danger: #ef4444;
+      
+      --transition-speed: 0.3s;
+      --shadow-premium: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    }
+    
+    body {
+      background-color: var(--bg-main);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(224, 169, 109, 0.05) 0%, transparent 40%);
+      background-attachment: fixed;
+      color: var(--color-text-main);
+      min-height: 100.1vh;
+      overflow-x: hidden;
+      padding-bottom: 60px;
+    }
+    
+    h1, h2, h3, h4, .font-fantasy {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.05em;
+    }
+
+    /* Container & Header */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: var(--bg-panel);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-premium);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-rogue) 0%, var(--color-wizard) 50%, var(--color-trickster) 100%);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .character-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1f2937, #111827);
+      border: 2px solid var(--color-trickster);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+      font-size: 32px;
+      user-select: none;
+    }
+    
+    .character-title {
+      flex: 1;
+      min-width: 250px;
+    }
+    
+    .character-name {
+      font-size: 36px;
+      font-weight: 900;
+      background: linear-gradient(to right, #ffffff, var(--color-wizard));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    
+    .character-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+    
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 12px;
+    }
+    
+    .meta-tag.highlight {
+      border-color: var(--color-trickster);
+      color: var(--color-text-main);
+      background: rgba(236, 72, 153, 0.1);
+    }
+
+    /* Navigation Tabs */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      overflow-x: auto;
+      scrollbar-width: none; /* Hide scrollbar Firefox */
+    }
+    
+    .tabs-nav::-webkit-scrollbar {
+      display: none; /* Hide scrollbar Chrome/Safari */
+    }
+    
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all var(--transition-speed);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .tab-btn:hover {
+      color: var(--color-text-main);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .tab-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(224, 169, 109, 0.1));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+    }
+
+    /* Tab Contents */
+    .tab-content {
+      display: none;
+      animation: fadeIn var(--transition-speed) ease-in-out;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Layout Grids */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+    
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    .col-8 { grid-column: span 8; }
+    .col-12 { grid-column: span 12; }
+    
+    @media (max-width: 900px) {
+      .col-4, .col-6, .col-8 { grid-column: span 12; }
+    }
+
+    /* Card Panels */
+    .panel {
+      background: var(--bg-panel);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow-premium);
+      margin-bottom: 24px;
+    }
+    
+    .panel-title {
+      font-size: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+    }
+    
+    .panel-title span.accent-green { color: var(--color-rogue); }
+    .panel-title span.accent-gold { color: var(--color-wizard); }
+    .panel-title span.accent-pink { color: var(--color-trickster); }
+
+    /* Interactive Roller Indicator */
+    .rollable {
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    
+    .rollable:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15) !important;
+    }
+    
+    .rollable::after {
+      content: '🎲';
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 10px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .rollable:hover::after {
+      opacity: 0.8;
+    }
+
+    /* Ability Scores Card Grid */
+    .ability-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    
+    @media (max-width: 600px) {
+      .ability-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .ability-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      user-select: none;
+    }
+    
+    .ability-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    
+    .ability-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+    
+    .ability-mod {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--color-rogue);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    
+    .ability-card.str .ability-mod { background: rgba(255, 255, 255, 0.05); color: var(--color-text-muted); border-color: rgba(255, 255, 255, 0.1); }
+    .ability-card.int .ability-mod, .ability-card.cha .ability-mod { background: rgba(224, 169, 109, 0.15); color: var(--color-wizard); border-color: rgba(224, 169, 109, 0.2); }
+
+    /* Vital stats block */
+    .vitals-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .vital-stat {
+      flex: 1;
+      min-width: 140px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .vital-icon {
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 55px;
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+    }
+    
+    .vital-stat.hp .vital-icon { color: var(--color-danger); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); }
+    .vital-stat.ac .vital-icon { color: var(--color-rogue); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05); }
+    .vital-stat.init .vital-icon { color: var(--color-wizard); border-color: rgba(224, 169, 109, 0.3); background: rgba(224, 169, 109, 0.05); }
+    
+    .vital-details {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .vital-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    
+    .vital-lbl {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    /* Attack / Weapon blocks */
+    .attack-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .attack-main {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .attack-icon {
+      font-size: 28px;
+    }
+    
+    .attack-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+    
+    .attack-meta {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+    
+    .attack-rolls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .roll-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 90px;
+    }
+    
+    .roll-pill .lbl {
+      font-size: 10px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    
+    .roll-pill .val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--color-wizard);
+    }
+    
+    .roll-pill.rollable:hover .val {
+      color: #ffffff;
+    }
+
+    /* Saves Layout */
+    .saves-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .save-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 18px;
+    }
+    
+    .save-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .save-details {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+    
+    .save-value-box {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: var(--color-rogue);
+      font-size: 18px;
+      font-weight: 800;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Alert / Informational box */
+    .alert-box {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px dashed rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    
+    .alert-icon {
+      font-size: 18px;
+      color: var(--color-danger);
+    }
+    
+    .alert-text {
+      color: #fca5a5;
+    }
+    
+    .alert-text strong {
+      color: #ffffff;
+    }
+
+    /* Skills Table */
+    .search-box {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 16px;
+      color: var(--color-text-main);
+      font-size: 14px;
+      margin-bottom: 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    
+    .search-box:focus {
+      border-color: var(--color-rogue);
+    }
+    
+    .skills-table-container {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .skills-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    
+    .skills-table th {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .skills-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+    
+    .skills-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .skills-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .skill-name-col {
+      font-weight: 600;
+      color: #ffffff;
+    }
+    
+    .skill-name-col .class-indicator {
+      color: var(--color-rogue);
+      font-size: 10px;
+      font-weight: 800;
+      margin-left: 6px;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    .skill-mod-badge {
+      display: inline-flex;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+    
+    .skills-table tr.rollable:hover .skill-mod-badge {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--color-rogue);
+      color: var(--color-rogue);
+    }
+
+    /* Spellbook CSS */
+    .spell-slots-tracker {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .slot-tracker-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .slot-level-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-wizard);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .slot-checkboxes {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .slot-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--color-wizard);
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      background: transparent;
+    }
+    
+    .slot-checkbox:checked {
+      background: var(--color-wizard);
+      box-shadow: 0 0 10px rgba(224, 169, 109, 0.5);
+    }
+    
+    .slot-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--bg-main);
+      font-size: 14px;
+      font-weight: 900;
+    }
+    
+    .spell-section-title {
+      font-size: 15px;
+      color: #ffffff;
+      margin: 18px 0 10px 0;
+      font-weight: 700;
+      border-left: 3px solid var(--color-wizard);
+      padding-left: 10px;
+    }
+    
+    .spell-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .spell-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    
+    .spell-badge:hover {
+      border-color: var(--color-wizard);
+      background: rgba(224, 169, 109, 0.05);
+      transform: translateY(-1px);
+    }
+    
+    .spell-badge span.req-tag {
+      font-size: 9px;
+      background: rgba(236, 72, 153, 0.15);
+      color: var(--color-trickster);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-weight: 700;
+    }
+
+    /* Gear Grid */
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    
+    .gear-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .gear-card:hover {
+      border-color: var(--color-trickster);
+      box-shadow: 0 6px 15px rgba(236, 72, 153, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .gear-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    
+    .gear-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    
+    .gear-source {
+      font-size: 10px;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--color-text-muted);
+      border: 1px solid var(--border-color);
+    }
+    
+    .gear-desc {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    
+    .gear-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 8px;
+      color: var(--color-text-muted);
+    }
+
+    .gear-details span strong {
+      color: #ffffff;
+    }
+
+    /* Quick Features List */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .feature-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    
+    .feature-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #ffffff;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .feature-tag {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    
+    .feature-tag.rog { background: rgba(16, 185, 129, 0.15); color: var(--color-rogue); border: 1px solid rgba(16, 185, 129, 0.2); }
+    .feature-tag.wiz { background: rgba(224, 169, 109, 0.15); color: var(--color-wizard); border: 1px solid rgba(224, 169, 109, 0.2); }
+    .feature-tag.trc { background: rgba(236, 72, 153, 0.15); color: var(--color-trickster); border: 1px solid rgba(236, 72, 153, 0.2); }
+    .feature-tag.race { background: rgba(255, 255, 255, 0.05); color: var(--color-text-muted); border: 1px solid var(--border-color); }
+    
+    .feature-desc {
+      font-size: 12.5px;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
+    /* Dice Rolling Tray / Modal Overlay */
+    .roller-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .roller-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .roller-card {
+      background: rgba(22, 28, 38, 0.95);
+      border: 2px solid var(--color-wizard);
+      box-shadow: 0 0 30px rgba(224, 169, 109, 0.3), var(--shadow-premium);
+      border-radius: 24px;
+      width: 90%;
+      max-width: 400px;
+      padding: 30px;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    
+    .roller-overlay.active .roller-card {
+      transform: scale(1);
+    }
+    
+    .roller-label {
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+    
+    /* D20 CSS Animation */
+    .dice-container {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px auto;
+      position: relative;
+      perspective: 1000px;
+    }
+    
+    .d20-svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--bg-panel);
+      stroke: var(--color-wizard);
+      stroke-width: 1.5px;
+      transition: transform 0.1s;
+    }
+    
+    .d20-svg.rolling {
+      animation: rollAnimation 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    
+    @keyframes rollAnimation {
+      0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); }
+      15% { transform: rotateX(180deg) rotateY(90deg) rotateZ(45deg) scale(0.8); }
+      45% { transform: rotateX(360deg) rotateY(270deg) rotateZ(180deg) scale(1.2); }
+      75% { transform: rotateX(540deg) rotateY(450deg) rotateZ(270deg) scale(0.9); }
+      100% { transform: rotateX(720deg) rotateY(720deg) rotateZ(360deg) scale(1); }
+    }
+    
+    .roller-result-val {
+      font-size: 54px;
+      font-weight: 900;
+      font-family: 'Cinzel', serif;
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .roller-result-val.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .roller-math {
+      font-size: 16px;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease 0.1s;
+    }
+    
+    .roller-math.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .roller-msg {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      min-height: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .roller-msg.crit-success {
+      color: var(--color-wizard);
+      text-shadow: 0 0 15px rgba(224, 169, 109, 0.6);
+      animation: pulsate 1s infinite alternate;
+    }
+    
+    .roller-msg.crit-fail {
+      color: var(--color-danger);
+      text-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+    }
+    
+    @keyframes pulsate {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+    
+    .close-roller-btn {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .close-roller-btn:hover {
+      border-color: var(--color-wizard);
+      background: rgba(224, 169, 109, 0.1);
+    }
+
+    /* Currency Cards */
+    .currency-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    @media (max-width: 600px) {
+      .currency-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .currency-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    
+    .currency-card.pp { border-color: rgba(236, 72, 153, 0.3); }
+    .currency-card.gp { border-color: rgba(224, 169, 109, 0.3); }
+    .currency-card.sp { border-color: rgba(156, 163, 175, 0.3); }
+    .currency-card.cp { border-color: rgba(180, 83, 9, 0.3); }
+    
+    .currency-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+    
+    .currency-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    
+    .currency-card.pp .currency-label { color: var(--color-trickster); }
+    .currency-card.gp .currency-label { color: var(--color-wizard); }
+    .currency-card.sp .currency-label { color: #d1d5db; }
+    .currency-card.cp .currency-label { color: #b45309; }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Character Header -->
+    <header>
+      <div class="header-content">
+        <div class="character-avatar">🧔</div>
+        <div class="character-title">
+          <h1 class="character-name">Pox</h1>
+          <div class="character-meta">
+            <span class="meta-tag highlight">Level 7</span>
+            <span class="meta-tag">Halfling</span>
+            <span class="meta-tag">Rogue 3 / Wizard 3 / Arcane Trickster 1</span>
+            <span class="meta-tag">Chaotic Good</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Navigation Tabs -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab(event, 'overview')">🎯 Overview</button>
+      <button class="tab-btn" onclick="switchTab(event, 'combat')">⚔️ Abilities & Combat</button>
+      <button class="tab-btn" onclick="switchTab(event, 'skills')">📜 Skills</button>
+      <button class="tab-btn" onclick="switchTab(event, 'spells')">🔮 Spellbook</button>
+      <button class="tab-btn" onclick="switchTab(event, 'inventory')">🎒 Inventory</button>
+    </nav>
+    
+    <!-- OVERVIEW TAB -->
+    <div id="overview" class="tab-content active">
+      <div class="grid-container">
+        
+        <!-- Column left (Vitals, Ability quick view) -->
+        <div class="col-8">
+          
+          <!-- Vital Stats -->
+          <div class="vitals-bar">
+            <div class="vital-stat hp">
+              <div class="vital-icon">❤️</div>
+              <div class="vital-details">
+                <span class="vital-val">41</span>
+                <span class="vital-lbl">Hit Points</span>
+              </div>
+            </div>
+            <div class="vital-stat ac">
+              <div class="vital-icon">🛡️</div>
+              <div class="vital-details">
+                <span class="vital-val">18</span>
+                <span class="vital-lbl">Armor Class</span>
+              </div>
+            </div>
+            <div class="vital-stat init rollable" onclick="rollD20('Initiative Check', 3)">
+              <div class="vital-icon">⚡</div>
+              <div class="vital-details">
+                <span class="vital-val">+3</span>
+                <span class="vital-lbl">Initiative</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Arcane Spell Failure Warning -->
+          <div class="alert-box">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-text">
+              Wizard spells cast in your **Studded Leather +1** have a <strong>15% Arcane Spell Failure</strong> chance. Still spells or Rogue skills are unaffected.
+            </div>
+          </div>
+          
+          <!-- Quick Character Features -->
+          <div class="panel">
+            <h2 class="panel-title"><span class="accent-pink">Arcane Trickster Entry Info</span></h2>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag trc">Arcane Trickster</span>
+                  Ranged Legerdemain (Su)
+                </div>
+                <div class="feature-desc">
+                  You can use Disable Device and Sleight of Hand at a range of 30 feet. Working at a distance increases the DC by +5, and you cannot take 10. Max object weight: 5 lbs.
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag rog">Rogue</span>
+                  Sneak Attack +2d6
+                </div>
+                <div class="feature-desc">
+                  Deal +2d6 extra damage if the target is denied Dexterity bonus to AC, or if you are flanking them.
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag rog">Rogue</span>
+                  Evasion (Ex)
+                </div>
+                <div class="feature-desc">
+                  If you pass a Reflex save against an effect that deals half damage on a success, you take no damage instead.
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag wiz">Wizard</span>
+                  Arcane Bond & School
+                </div>
+                <div class="feature-desc">
+                  You cast spells as a <strong>Level 4 Wizard</strong> (Caster Level 4). You have a wizard familiar/bonded object and specialist school powers.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Column right (Quick Saves, Quick Actions) -->
+        <div class="col-4">
+          
+          <!-- Saves Panel -->
+          <div class="panel">
+            <h2 class="panel-title"><span class="accent-green">Saving Throws</span></h2>
+            <div class="saves-flex">
+              <div class="save-row rollable" onclick="rollD20('Fortitude Save', 4)">
+                <div>
+                  <div class="save-name">Fortitude</div>
+                  <div class="save-details">Base +2, Con +1, Luck +1</div>
+                </div>
+                <div class="save-value-box">+4</div>
+              </div>
+              <div class="save-row rollable" onclick="rollD20('Reflex Save', 9)">
+                <div>
+                  <div class="save-name">Reflex</div>
+                  <div class="save-details">Base +5, Dex +3, Luck +1 (+1 vs. traps)</div>
+                </div>
+                <div class="save-value-box">+9</div>
+              </div>
+              <div class="save-row rollable" onclick="rollD20('Will Save', 6)">
+                <div>
+                  <div class="save-name">Will</div>
+                  <div class="save-details">Base +5, Wis +0, Luck +1 (+3 vs. fear)</div>
+                </div>
+                <div class="save-value-box">+6</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Halfling Racial Traits -->
+          <div class="panel">
+            <h2 class="panel-title">Halfling Traits</h2>
+            <ul style="list-style-type: none; font-size: 13px; line-height: 1.6; color: var(--color-text-muted);">
+              <li>🌟 <strong>+2 Dex, +2 Cha, -2 Str</strong> (applied)</li>
+              <li>📏 <strong>Small Size:</strong> +1 AC & Attack, -1 CMB/CMD, +4 Stealth</li>
+              <li>🦶 <strong>Slow Speed:</strong> Base speed 20 ft.</li>
+              <li>🍀 <strong>Halfling Luck:</strong> +1 to all saves (applied)</li>
+              <li>🛡️ <strong>Fearless:</strong> +2 vs fear (stacks to +3 total)</li>
+              <li>👁️ <strong>Keen Senses:</strong> +2 Perception (applied)</li>
+              <li>🤸 <strong>Sure-Footed:</strong> +2 Acrobatics & Climb (applied)</li>
+            </ul>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- COMBAT TAB -->
+    <div id="combat" class="tab-content">
+      <div class="grid-container">
+        
+        <!-- Left (Attacks and Stats) -->
+        <div class="col-8">
+          
+          <div class="panel">
+            <h2 class="panel-title"><span class="accent-wizard">Melee & Ranged Attacks</span></h2>
+            
+            <!-- Weapon: Halling Dolk +2 -->
+            <div class="attack-card">
+              <div class="attack-main">
+                <div class="attack-icon">🗡️</div>
+                <div>
+                  <div class="attack-title">Halling Dolk +2 (Halfling Dagger +2)</div>
+                  <div class="attack-meta">Small Light Weapon | Crit: 19-20/x2 | Piercing/Slashing</div>
+                </div>
+              </div>
+              <div class="attack-rolls">
+                <div class="roll-pill rollable" onclick="rollD20('Halling Dolk Melee Attack', 9, '1d3+1')">
+                  <span class="lbl">Melee hit</span>
+                  <span class="val">+9</span>
+                </div>
+                <div class="roll-pill rollable" onclick="rollD20('Halling Dolk Thrown Attack', 9, '1d3+1')">
+                  <span class="lbl">Thrown hit</span>
+                  <span class="val">+9</span>
+                </div>
+                <div class="roll-pill">
+                  <span class="lbl">Damage</span>
+                  <span class="val" style="color: #ffffff;">1d3+1</span>
+                </div>
+              </div>
+            </div>
+            
+            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.5; margin-top: 10px;">
+              * Attack bonus calculation: +3 BAB + 1 Size + 3 Dex (via Weapon Finesse) + 2 Magic = +9.  
+              * Damage calculation: 1d3 (Small Dagger base) - 1 Str mod + 2 Magic = 1d3+1.  
+              * Thrown range increment is 10 ft.  
+              * Add <strong>+2d6</strong> Sneak Attack damage if the target is flanked or flat-footed.
+            </p>
+          </div>
+          
+          <!-- Combat Maneuvers Panel -->
+          <div class="panel">
+            <h2 class="panel-title">Combat Maneuvers</h2>
+            <div style="display: flex; gap: 16px;">
+              <div style="flex: 1; text-align: center; padding: 12px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-text-muted);">CMB (Bonus)</div>
+                <div class="font-fantasy" style="font-size: 24px; font-weight: 800; margin: 4px 0; color: #ffffff;">+1</div>
+                <div style="font-size: 10px; color: var(--color-text-muted);">+3 BAB - 1 Size - 1 Str</div>
+              </div>
+              <div style="flex: 1; text-align: center; padding: 12px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-text-muted);">CMD (Defense)</div>
+                <div class="font-fantasy" style="font-size: 24px; font-weight: 800; margin: 4px 0; color: #ffffff;">14</div>
+                <div style="font-size: 10px; color: var(--color-text-muted);">10 + 3 BAB - 1 Size - 1 Str + 3 Dex</div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Right (Ability Score Cards) -->
+        <div class="col-4">
+          <div class="panel">
+            <h2 class="panel-title"><span class="accent-green">Ability Scores</span></h2>
+            <div class="ability-grid">
+              
+              <div class="ability-card str rollable" onclick="rollD20('Strength Check', -1)">
+                <div class="ability-label">STR</div>
+                <div class="ability-value">8</div>
+                <div class="ability-mod">-1</div>
+              </div>
+              
+              <div class="ability-card dex rollable" onclick="rollD20('Dexterity Check', 3)">
+                <div class="ability-label">DEX</div>
+                <div class="ability-value">17</div>
+                <div class="ability-mod">+3</div>
+              </div>
+              
+              <div class="ability-card con rollable" onclick="rollD20('Constitution Check', 1)">
+                <div class="ability-label">CON</div>
+                <div class="ability-value">12</div>
+                <div class="ability-mod">+1</div>
+              </div>
+              
+              <div class="ability-card int rollable" onclick="rollD20('Intelligence Check', 3)">
+                <div class="ability-label">INT</div>
+                <div class="ability-value">17</div>
+                <div class="ability-mod">+3</div>
+              </div>
+              
+              <div class="ability-card wis rollable" onclick="rollD20('Wisdom Check', 0)">
+                <div class="ability-label">WIS</div>
+                <div class="ability-value">10</div>
+                <div class="ability-mod">0</div>
+              </div>
+              
+              <div class="ability-card cha rollable" onclick="rollD20('Charisma Check', 1)">
+                <div class="ability-label">CHA</div>
+                <div class="ability-value">12</div>
+                <div class="ability-mod">+1</div>
+              </div>
+              
+            </div>
+            
+            <div style="font-size: 11px; color: var(--color-text-muted); line-height: 1.4; margin-top: 15px;">
+              * Halfling racial modifiers (+2 Dex, +2 Cha, -2 Str) are included.  
+              * Intelligence includes +1 bonus from Level 4 increase.  
+              * Click on any score to roll an ability check.
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- SKILLS TAB -->
+    <div id="skills" class="tab-content">
+      <div class="panel">
+        <h2 class="panel-title"><span class="accent-green">Skills (55 Ranks)</span></h2>
+        
+        <input type="text" id="skillSearch" class="search-box" placeholder="🔎 Search skills..." onkeyup="filterSkills()">
+        
+        <div class="skills-table-container">
+          <table class="skills-table" id="skillsTable">
+            <thead>
+              <tr>
+                <th>Skill Name</th>
+                <th>Total Mod</th>
+                <th>Ranks</th>
+                <th>Ability</th>
+                <th>Breakdown Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="rollable" onclick="rollD20('Acrobatics Check', 15)">
+                <td class="skill-name-col">Acrobatics<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+15</span></td>
+                <td>7</td>
+                <td>Dex (+3)</td>
+                <td>+3 Class, +2 Halfling racial</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Climb Check', 7)">
+                <td class="skill-name-col">Climb<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+7</span></td>
+                <td>3</td>
+                <td>Str (-1)</td>
+                <td>+3 Class, +2 Halfling racial</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Disable Device Check', 15)">
+                <td class="skill-name-col">Disable Device<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+15</span></td>
+                <td>7</td>
+                <td>Dex (+3)</td>
+                <td>+3 Class, +1 Trapfinding, +1 tools (AT Req: 4 ranks)</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Escape Artist Check', 13)">
+                <td class="skill-name-col">Escape Artist<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+13</span></td>
+                <td>7</td>
+                <td>Dex (+3)</td>
+                <td>+3 Class (AT Req: 4 ranks)</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Knowledge (arcana) Check', 13)">
+                <td class="skill-name-col">Knowledge (arcana)<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+13</span></td>
+                <td>7</td>
+                <td>Int (+3)</td>
+                <td>+3 Class (AT Req: 4 ranks)</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Knowledge (dungeons) Check', 7)">
+                <td class="skill-name-col">Knowledge (dungeons)<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+7</span></td>
+                <td>1</td>
+                <td>Int (+3)</td>
+                <td>+3 Class</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Knowledge (local) Check', 7)">
+                <td class="skill-name-col">Knowledge (local)<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+7</span></td>
+                <td>1</td>
+                <td>Int (+3)</td>
+                <td>+3 Class</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Perception Check', 13)">
+                <td class="skill-name-col">Perception<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+13</span></td>
+                <td>7</td>
+                <td>Wis (0)</td>
+                <td>+3 Class, +2 Halfling, +1 Trapfinding (vs. traps)</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Sleight of Hand Check', 13)">
+                <td class="skill-name-col">Sleight of Hand<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+13</span></td>
+                <td>7</td>
+                <td>Dex (+3)</td>
+                <td>+3 Class (Used for Ranged Legerdemain)</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Spellcraft Check', 11)">
+                <td class="skill-name-col">Spellcraft<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+11</span></td>
+                <td>5</td>
+                <td>Int (+3)</td>
+                <td>+3 Class</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Stealth Check', 17)">
+                <td class="skill-name-col">Stealth<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+17</span></td>
+                <td>7</td>
+                <td>Dex (+3)</td>
+                <td>+3 Class, +4 Size bonus</td>
+              </tr>
+              <tr class="rollable" onclick="rollD20('Use Magic Device Check', 5)">
+                <td class="skill-name-col">Use Magic Device<span class="class-indicator">Class</span></td>
+                <td><span class="skill-mod-badge">+5</span></td>
+                <td>1</td>
+                <td>Cha (+1)</td>
+                <td>+3 Class</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <p style="font-size: 12px; color: var(--color-text-muted); margin-top: 15px; line-height: 1.4;">
+          * <strong>Class</strong> tags represent class skills. Class skills with 1 or more ranks get a +3 class skill bonus (included in Total Mod).  
+          * Clicking a skill row automatically rolls a 1d20 + Total Mod.
+        </p>
+      </div>
+    </div>
+    
+    <!-- SPELLS TAB -->
+    <div id="spells" class="tab-content">
+      <div class="grid-container">
+        
+        <!-- Spell slots and details -->
+        <div class="col-12">
+          
+          <div class="panel">
+            <h2 class="panel-title"><span class="accent-wizard">Spell Slots & Prep Caster Level 4</span></h2>
+            
+            <div class="spell-slots-tracker">
+              <div class="slot-tracker-card">
+                <div class="slot-level-title">
+                  <span>0-Level (Cantrips)</span>
+                  <span>4 Slots</span>
+                </div>
+                <div style="font-size: 12px; color: var(--color-text-muted);">
+                  Unlimited daily use. Prepared cantrips are not expended.
+                </div>
+              </div>
+              <div class="slot-tracker-card">
+                <div class="slot-level-title">
+                  <span>1st-Level Spells</span>
+                  <span>4 Daily Slots</span>
+                </div>
+                <div class="slot-checkboxes">
+                  <input type="checkbox" class="slot-checkbox">
+                  <input type="checkbox" class="slot-checkbox">
+                  <input type="checkbox" class="slot-checkbox">
+                  <input type="checkbox" class="slot-checkbox">
+                </div>
+              </div>
+              <div class="slot-tracker-card">
+                <div class="slot-level-title">
+                  <span>2nd-Level Spells</span>
+                  <span>3 Daily Slots</span>
+                </div>
+                <div class="slot-checkboxes">
+                  <input type="checkbox" class="slot-checkbox">
+                  <input type="checkbox" class="slot-checkbox">
+                  <input type="checkbox" class="slot-checkbox">
+                </div>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 24px; flex-wrap: wrap; font-size: 13.5px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+              <div>⚡ <strong>Caster Level:</strong> 4 *(Wizard 3 + Arcane Trickster 1)*</div>
+              <div>🎯 <strong>Concentration:</strong> +7 *(CL 4 + Int +3)*</div>
+              <div>📖 <strong>Spell DC:</strong> 13 + Spell Level *(10 + Spell Level + Int +3)*</div>
+            </div>
+            
+          </div>
+          
+          <div class="panel">
+            <h2 class="panel-title">Wizard Spellbook Recommendations</h2>
+            
+            <div class="spell-section-title">0-Level Cantrips (DC 13)</div>
+            <div class="spell-list">
+              <div class="spell-badge">Mage Hand <span class="req-tag">Req</span></div>
+              <div class="spell-badge">Detect Magic</div>
+              <div class="spell-badge">Read Magic</div>
+              <div class="spell-badge">Ghost Sound</div>
+              <div class="spell-badge">Acid Splash</div>
+              <div class="spell-badge">Ray of Frost</div>
+            </div>
+            
+            <div class="spell-section-title">1st-Level Spells (DC 14)</div>
+            <div class="spell-list">
+              <div class="spell-badge">Shield</div>
+              <div class="spell-badge">Mage Armor</div>
+              <div class="spell-badge">Grease</div>
+              <div class="spell-badge">True Strike</div>
+              <div class="spell-badge">Vanish</div>
+              <div class="spell-badge">Shocking Grasp</div>
+              <div class="spell-badge">Silent Image</div>
+            </div>
+            
+            <div class="spell-section-title">2nd-Level Spells (DC 15)</div>
+            <div class="spell-list">
+              <div class="spell-badge">Invisibility</div>
+              <div class="spell-badge">Mirror Image</div>
+              <div class="spell-badge">Scorching Ray</div>
+              <div class="spell-badge">Web</div>
+              <div class="spell-badge">Glitterdust</div>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- INVENTORY TAB -->
+    <div id="inventory" class="tab-content">
+      
+      <!-- Party Currency -->
+      <div class="panel">
+        <h2 class="panel-title"><span class="accent-gold">Shared Party Money (In Bag of Holding)</span></h2>
+        <div class="currency-grid">
+          <div class="currency-card pp">
+            <div class="currency-val">350</div>
+            <div class="currency-label">Platina</div>
+          </div>
+          <div class="currency-card gp">
+            <div class="currency-val">7,855</div>
+            <div class="currency-label">Gull (Gold)</div>
+          </div>
+          <div class="currency-card sp">
+            <div class="currency-val">1,237</div>
+            <div class="currency-label">Sølv (Silver)</div>
+          </div>
+          <div class="currency-card cp">
+            <div class="currency-val">577</div>
+            <div class="currency-label">Kopper (Copper)</div>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: var(--color-text-muted);">
+          * Plus various valuable gems: diverse gems (150 gp value), 50 valuable gems (50 gp avg), and 3 exceptional gems (100+ gp each).
+        </div>
+      </div>
+      
+      <!-- Pox's Personal Gear -->
+      <div class="panel">
+        <h2 class="panel-title"><span class="accent-pink">Pox's Personal Equipment</span></h2>
+        
+        <div class="gear-grid">
+          
+          <div class="gear-card">
+            <div class="gear-hdr">
+              <span class="gear-name">Halling Dolk +2</span>
+              <span class="gear-source">The Hags Head</span>
+            </div>
+            <p class="gear-desc">A magical +2 dagger perfectly sized for Pox. Grants a +2 bonus to attack and damage rolls.</p>
+            <div class="gear-details">
+              <span>Type: <strong>Light Dagger</strong></span>
+              <span>Weight: <strong>0.5 lbs</strong></span>
+            </div>
+          </div>
+          
+          <div class="gear-card">
+            <div class="gear-hdr">
+              <span class="gear-name">Studded Leather +1</span>
+              <span class="gear-source">Dvergegruva</span>
+            </div>
+            <p class="gear-desc">Magic armor custom fitted for a Halfling. Decreases armor check penalty to 0. Grants +4 AC.</p>
+            <div class="gear-details">
+              <span>Armor: <strong>AC +4</strong></span>
+              <span>Weight: <strong>10.5 lbs</strong></span>
+            </div>
+          </div>
+          
+          <div class="gear-card">
+            <div class="gear-hdr">
+              <span class="gear-name">Cappe - Snakke med de døde</span>
+              <span class="gear-source">Phrecum's Cloak</span>
+            </div>
+            <p class="gear-desc">A special cloak used to communicate with the deceased. It has been cut down to fit a halfling size.</p>
+            <div class="gear-details">
+              <span>Slot: <strong>Shoulders</strong></span>
+              <span>Weight: <strong>0.5 lbs</strong></span>
+            </div>
+          </div>
+          
+          <div class="gear-card">
+            <div class="gear-hdr">
+              <span class="gear-name">Kompass (Magisk)</span>
+              <span class="gear-source">Gudekammeret</span>
+            </div>
+            <p class="gear-desc">A peculiar magic compass that points directly in the direction of nearby gold and treasures.</p>
+            <div class="gear-details">
+              <span>Type: <strong>Magic Item</strong></span>
+              <span>Weight: <strong>—</strong></span>
+            </div>
+          </div>
+          
+          <div class="gear-card">
+            <div class="gear-hdr">
+              <span class="gear-name">Spinneting med skjeletter</span>
+              <span class="gear-source">Smugler's Cove</span>
+            </div>
+            <p class="gear-desc">A curious spinning top or music box depicting skeletons. Has unknown properties/sentimental value.</p>
+            <div class="gear-details">
+              <span>Type: <strong>Curio</strong></span>
+              <span>Weight: <strong>0.5 lbs</strong></span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <!-- Interactive Roller Overlay (Modal) -->
+  <div class="roller-overlay" id="rollerOverlay">
+    <div class="roller-card">
+      <div class="roller-label" id="rollerLabel">Attack Roll</div>
+      
+      <div class="dice-container">
+        <!-- SVG d20 Drawing -->
+        <svg class="d20-svg" id="rollerDice" viewBox="0 0 100 100">
+          <!-- Main Outer Hexagon -->
+          <polygon points="50,5 90,30 90,70 50,95 10,70 10,30" />
+          <!-- Inner Triangles -->
+          <polygon points="50,5 50,35 90,30" />
+          <polygon points="50,5 50,35 10,30" />
+          <polygon points="50,95 50,65 90,70" />
+          <polygon points="50,95 50,65 10,70" />
+          <polygon points="10,30 40,50 10,70" />
+          <polygon points="90,30 60,50 90,70" />
+          <!-- Center Face Triangle -->
+          <polygon points="50,35 60,50 40,50" style="fill: rgba(16, 185, 129, 0.1);" />
+          <polygon points="50,65 60,50 40,50" style="fill: rgba(16, 185, 129, 0.1);" />
+          <polygon points="50,35 40,50 10,30" />
+          <polygon points="50,35 60,50 90,30" />
+          <polygon points="50,65 40,50 10,70" />
+          <polygon points="50,65 60,50 90,70" />
+        </svg>
+      </div>
+      
+      <div class="roller-result-val" id="rollerResult">20</div>
+      <div class="roller-math" id="rollerMath">1d20 (11) + 9</div>
+      <div class="roller-msg" id="rollerMsg">Critical Success!</div>
+      
+      <button class="close-roller-btn" onclick="closeRoller()">Dismiss</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Tab switching logic
+    function switchTab(evt, tabId) {
+      // Hide all tabs
+      const tabContents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+      
+      // Deactivate all buttons
+      const tabBtns = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tabBtns.length; i++) {
+        tabBtns[i].classList.remove("active");
+      }
+      
+      // Show active tab & button
+      document.getElementById(tabId).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+    
+    // Skills search filter
+    function filterSkills() {
+      const input = document.getElementById("skillSearch");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("skillsTable");
+      const trs = table.getElementsByTagName("tr");
+      
+      // Loop through all table rows (skipping header)
+      for (let i = 1; i < trs.length; i++) {
+        const td = trs[i].getElementsByTagName("td")[0];
+        if (td) {
+          const txtValue = td.textContent || td.innerText;
+          if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            trs[i].style.display = "";
+          } else {
+            trs[i].style.display = "none";
+          }
+        }
+      }
+    }
+    
+    // Dice roller logic
+    const overlay = document.getElementById("rollerOverlay");
+    const dice = document.getElementById("rollerDice");
+    const labelEl = document.getElementById("rollerLabel");
+    const resultEl = document.getElementById("rollerResult");
+    const mathEl = document.getElementById("rollerMath");
+    const msgEl = document.getElementById("rollerMsg");
+    
+    let isRolling = false;
+    
+    function rollD20(label, modifier, dmgStr = null) {
+      if (isRolling) return;
+      isRolling = true;
+      
+      // Reset displays
+      overlay.classList.add("active");
+      dice.classList.add("rolling");
+      resultEl.classList.remove("shown");
+      mathEl.classList.remove("shown");
+      msgEl.innerText = "";
+      msgEl.className = "roller-msg";
+      
+      labelEl.innerText = label;
+      
+      // Calculate roll after animation delay
+      setTimeout(() => {
+        const d20Roll = Math.floor(Math.random() * 20) + 1;
+        const total = d20Roll + modifier;
+        
+        dice.classList.remove("rolling");
+        
+        // Populate and display result
+        resultEl.innerText = total;
+        
+        const sign = modifier >= 0 ? "+" : "";
+        let mathText = `1d20 (${d20Roll}) ${sign}${modifier}`;
+        if (dmgStr) {
+          mathText += ` | Damage: ${dmgStr}`;
+        }
+        mathEl.innerText = mathText;
+        
+        // Critical messages
+        if (d20Roll === 20) {
+          msgEl.innerText = "⭐ Critical Success! (Nat 20) ⭐";
+          msgEl.classList.add("crit-success");
+        } else if (d20Roll === 1) {
+          msgEl.innerText = "💀 Critical Fumble! (Nat 1) 💀";
+          msgEl.classList.add("crit-fail");
+        } else {
+          msgEl.innerText = "";
+        }
+        
+        resultEl.classList.add("shown");
+        mathEl.classList.add("shown");
+        isRolling = false;
+      }, 1200);
+    }
+    
+    function closeRoller() {
+      if (isRolling) return;
+      overlay.classList.remove("active");
+    }
+    
+    // Press escape key to close rolling tray
+    window.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeRoller();
+      }
+    });
+  </script>
+
+</body>
+</html>
