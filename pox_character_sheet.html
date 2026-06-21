@@ -1770,6 +1770,23 @@
         closeRoller();
       }
     });
+
+    // Spell slots localStorage persistence
+    document.addEventListener("DOMContentLoaded", function() {
+      const slotCheckboxes = document.querySelectorAll('.slot-checkbox');
+      const savedStates = JSON.parse(localStorage.getItem('pox_spell_slots') || '[]');
+      
+      slotCheckboxes.forEach((checkbox, index) => {
+        if (savedStates[index] !== undefined) {
+          checkbox.checked = savedStates[index];
+        }
+        
+        checkbox.addEventListener('change', () => {
+          const states = Array.from(slotCheckboxes).map(cb => cb.checked);
+          localStorage.setItem('pox_spell_slots', JSON.stringify(states));
+        });
+      });
+    });
   </script>
 
 </body>
