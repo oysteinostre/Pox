@@ -1099,10 +1099,10 @@
                 <span class="vital-lbl">Armor Class</span>
               </div>
             </div>
-            <div class="vital-stat init rollable" onclick="rollD20('Initiative Check', 3)">
+            <div class="vital-stat init rollable" onclick="rollD20('Initiative Check', 7)">
               <div class="vital-icon">⚡</div>
               <div class="vital-details">
-                <span class="vital-val">+3</span>
+                <span class="vital-val">+7</span>
                 <span class="vital-lbl">Initiative</span>
               </div>
             </div>
@@ -1132,10 +1132,10 @@
               <div class="feature-item">
                 <div class="feature-name">
                   <span class="feature-tag rog">Rogue</span>
-                  Sneak Attack +2d6
+                  Sneak Attack +3d6
                 </div>
                 <div class="feature-desc">
-                  Deal +2d6 extra damage if the target is denied Dexterity bonus to AC, or if you are flanking them.
+                  Deal +3d6 extra damage if the target is denied Dexterity bonus to AC, or if you are flanking them. *(Upgraded from +2d6 by your Accomplished Sneak Attacker feat)*.
                 </div>
               </div>
               <div class="feature-item">
@@ -1250,7 +1250,7 @@
               * Attack bonus calculation: +3 BAB + 1 Size + 3 Dex (via Weapon Finesse) + 2 Magic = +9.  
               * Damage calculation: 1d3 (Small Dagger base) - 1 Str mod + 2 Magic = 1d3+1.  
               * Thrown range increment is 10 ft.  
-              * Add <strong>+2d6</strong> Sneak Attack damage if the target is flanked or flat-footed.
+              * Add <strong>+3d6</strong> Sneak Attack damage if the target is flanked or flat-footed.
             </p>
           </div>
           
@@ -1267,6 +1267,67 @@
                 <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-text-muted);">CMD (Defense)</div>
                 <div class="font-fantasy" style="font-size: 24px; font-weight: 800; margin: 4px 0; color: #ffffff;">14</div>
                 <div style="font-size: 10px; color: var(--color-text-muted);">10 + 3 BAB - 1 Size - 1 Str + 3 Dex</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feats & Rogue Talents Panel -->
+          <div class="panel">
+            <h2 class="panel-title"><span class="accent-wizard">Feats & Talents</span></h2>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag wiz">Level 1</span>
+                  Improved Initiative
+                </div>
+                <div class="feature-desc">
+                  You get a <strong>+4 bonus</strong> on Initiative checks (bringing Pox's total Initiative modifier to **+7**). Excellent for acting first to catch targets flat-footed!
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag rog">Rogue 2</span>
+                  Weapon Finesse (Rogue Talent)
+                </div>
+                <div class="feature-desc">
+                  Use your **Dexterity modifier (+3)** instead of Strength modifier (-1) on attack rolls with your Halling Dolk +2.
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag wiz">Level 3</span>
+                  Point-Blank Shot
+                </div>
+                <div class="feature-desc">
+                  You get a **+1 bonus** on attack and damage rolls with ranged weapons and spells (like rays) at ranges up to 30 feet.
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag wiz">Level 5</span>
+                  Precise Shot
+                </div>
+                <div class="feature-desc">
+                  You can shoot or throw ranged weapons/spells into melee combat without suffering the standard **-4 penalty**. Essential for casting spell rays into combat!
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag wiz">Level 7</span>
+                  Accomplished Sneak Attacker
+                </div>
+                <div class="feature-desc">
+                  Your Sneak Attack damage increases by **+1d6** (bringing Pox's total Sneak Attack to **+3d6**).
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-name">
+                  <span class="feature-tag wiz">Wizard 1</span>
+                  Scribe Scroll (Bonus Feat)
+                </div>
+                <div class="feature-desc">
+                  You can create magic scrolls of any wizard spells you know.
+                </div>
               </div>
             </div>
           </div>

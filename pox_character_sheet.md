@@ -51,7 +51,7 @@
 ## Offense & Combat
 
 *   **Base Attack Bonus (BAB)**: **+3** *(Rogue +2, Wizard +1, Arcane Trickster +0)*
-*   **Initiative**: **+3** *(+3 Dex)* / **+7** *(if using Improved Initiative feat)*
+*   **Initiative**: **+7** *(+3 Dex, +4 Improved Initiative)*
 *   **Combat Maneuver Bonus (CMB)**: **+1** *[BAB (+3) - 1 (Size) - 1 (Str)]*
 *   **Combat Maneuver Defense (CMD)**: **14** *[10 + BAB (+3) - 1 (Size) - 1 (Str) + 3 (Dex)]*
 
@@ -64,7 +64,7 @@
 *   **Damage**: **1d3 + 1** *(1d3 base Small dagger, -1 Str, +2 magic)*
 *   **Critical**: 19-20 / x2
 *   **Damage Type**: Piercing or Slashing
-*   **Sneak Attack**: **+2d6** additional damage when opponent is denied Dexterity bonus or is flanked.
+*   **Sneak Attack**: **+3d6** additional damage when opponent is denied Dexterity bonus or is flanked.
 
 ---
 
@@ -79,7 +79,7 @@
 *   **Sure-Footed**: +2 racial bonus on Acrobatics and Climb checks.
 
 ### Rogue Features (Level 3)
-*   **Sneak Attack +2d6**: Deal extra damage to targets denied their Dex bonus to AC or flanked.
+*   **Sneak Attack +3d6**: Deal extra damage to targets denied their Dex bonus to AC or flanked. *(Upgraded from +2d6 by your Accomplished Sneak Attacker feat)*.
 *   **Trapfinding**: Add +1 (half level) to Perception checks to locate traps and Disable Device checks. Can disarm magic traps.
 *   **Evasion (Ex)**: Succeeding on a Reflex save for half damage results in no damage instead.
 *   **Rogue Talent (Level 2)**: **Finesse Rogue** *(Recommended - grants Weapon Finesse as a bonus feat, allowing you to use Dex instead of Str for dagger attacks)*.
@@ -96,11 +96,12 @@
 *   **Spells per Day**: Gained +1 level of Wizard spellcasting (casts as a Level 4 Wizard).
 
 ### Feats
-1.  **Level 1**: **Improved Initiative** *(+4 Initiative)* or **Combat Casting** *(+4 concentration checks in combat)*
+1.  **Level 1**: **Improved Initiative** *(+4 Initiative)*
 2.  **Rogue 2 Talent**: **Weapon Finesse** *(Finesse Rogue talent)*
-3.  **Level 3**: **Accomplished Sneak Attacker** *(Increases sneak attack by +1d6 to +3d6)*
-4.  **Level 5**: **Spell Focus (Conjuration or Evocation)** *(Increases spell DCs by +1)*
-5.  **Level 7**: **Point-Blank Shot** *(+1 to hit/damage with ranged attacks/rays within 30 ft.)*
+3.  **Level 3**: **Point-Blank Shot** *(+1 to hit/damage with ranged attacks/rays within 30 ft.)*
+4.  **Level 5**: **Precise Shot** *(No -4 penalty for shooting into melee)*
+5.  **Level 7**: **Accomplished Sneak Attacker** *(Increases sneak attack by +1d6 to +3d6)*
+6.  **Wizard 1 Bonus**: **Scribe Scroll** *(Create magic scrolls)*
 
 ---
 
