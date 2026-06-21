@@ -104,13 +104,13 @@ def main():
     payload = {
         "host": subdomain,
         "type": "CNAME",
-        "value": target_cname,
+        "data": target_cname,
         "ttl": 3600
     }
 
     if existing_record:
         record_id = existing_record["id"]
-        current_value = existing_record["value"].rstrip(".")
+        current_value = existing_record["data"].rstrip(".")
         if current_value == target_cname:
             print(f"CNAME record for '{subdomain}.{domain_name}' already points to '{target_cname}'. No update needed.")
         else:
