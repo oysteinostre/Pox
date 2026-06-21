@@ -1073,14 +1073,14 @@
           
           <!-- Vital Stats -->
           <div class="vitals-bar">
-            <div class="vital-stat hp" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 220px;">
+            <div class="vital-stat hp rollable" onclick="openHPOverlay()" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 220px; user-select: none;">
               <div style="display: flex; align-items: center; gap: 16px; width: 100%;">
                 <div class="vital-icon">❤️</div>
                 <div class="vital-details">
                   <div style="display: flex; align-items: baseline; gap: 4px;">
                     <span class="vital-val" id="currentHP">41</span>
                     <span style="color: var(--color-text-muted); font-size: 14px;">/</span>
-                    <span style="color: var(--color-text-muted); font-size: 14px; font-weight: 600; cursor: pointer;" id="maxHP" title="Double click to edit Max HP">41</span>
+                    <span style="color: var(--color-text-muted); font-size: 14px; font-weight: 600;" id="maxHP">41</span>
                   </div>
                   <span class="vital-lbl">Hit Points</span>
                 </div>
@@ -1088,10 +1088,8 @@
               <div style="width: 100%; height: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 3px; overflow: hidden; border: 1px solid var(--border-color);">
                 <div id="hpBar" style="width: 100%; height: 100%; background: var(--color-rogue); transition: width 0.3s ease;"></div>
               </div>
-              <div style="display: flex; gap: 8px; width: 100%; margin-top: 4px;">
-                <input type="number" id="hpInput" placeholder="Qty" style="width: 50px; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 4px; color: white; padding: 2px 6px; font-size: 12px; outline: none; text-align: center;">
-                <button onclick="adjustHP(true)" style="flex: 1; font-size: 11px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--color-rogue); border-radius: 4px; cursor: pointer; padding: 2px 8px; font-weight: 600; transition: all 0.2s;">Heal</button>
-                <button onclick="adjustHP(false)" style="flex: 1; font-size: 11px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; border-radius: 4px; cursor: pointer; padding: 2px 8px; font-weight: 600; transition: all 0.2s;">Dmg</button>
+              <div style="font-size: 9px; text-transform: uppercase; color: var(--color-text-muted); font-weight: 700; width: 100%; text-align: right; margin-top: 2px;">
+                Tap to adjust HP
               </div>
             </div>
             <div class="vital-stat ac">
@@ -1674,6 +1672,47 @@
     </div>
   </div>
 
+  <!-- Interactive HP Adjuster Overlay (Modal) -->
+  <div class="roller-overlay" id="hpOverlay">
+    <div class="roller-card" style="border-color: var(--color-danger); box-shadow: 0 0 30px rgba(239, 68, 68, 0.25), var(--shadow-premium);">
+      <div class="roller-label" style="color: #f87171;">Adjust Hit Points</div>
+      
+      <div style="font-size: 28px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: baseline; justify-content: center; gap: 4px;">
+        <span id="popupCurrentHP">41</span>
+        <span style="color: var(--color-text-muted); font-size: 16px;">/</span>
+        <span id="popupMaxHP" style="color: var(--color-text-muted); font-size: 16px; font-weight: 600;">41</span>
+      </div>
+
+      <!-- Quick Amount Presets -->
+      <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;">
+        <button onclick="setAdjustmentAmount(1)" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 600; font-size: 13px;">+1</button>
+        <button onclick="setAdjustmentAmount(5)" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 600; font-size: 13px;">+5</button>
+        <button onclick="setAdjustmentAmount(10)" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 600; font-size: 13px;">+10</button>
+        <button onclick="setAdjustmentAmount(20)" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 600; font-size: 13px;">+20</button>
+      </div>
+
+      <!-- Amount Input -->
+      <input type="number" id="hpAdjustInput" placeholder="Enter amount..." style="width: 100%; font-size: 18px; font-weight: 700; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 8px; color: white; padding: 10px; margin-bottom: 20px; outline: none; text-align: center;">
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+        <button onclick="applyHPAdjustment(true)" style="flex: 1; padding: 12px; font-size: 14px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--color-rogue); border-radius: 8px; cursor: pointer; font-weight: 700; transition: all 0.2s;">❤️ Heal</button>
+        <button onclick="applyHPAdjustment(false)" style="flex: 1; padding: 12px; font-size: 14px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; border-radius: 8px; cursor: pointer; font-weight: 700; transition: all 0.2s;">💥 Damage</button>
+      </div>
+
+      <!-- Edit Max HP Row -->
+      <div style="border-top: 1px solid var(--border-color); padding-top: 18px; margin-bottom: 24px; text-align: left;">
+        <label style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 8px;">Change Max HP</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="number" id="maxHPInput" placeholder="Max HP..." style="flex: 1; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 6px; color: white; padding: 8px 12px; font-size: 13px; outline: none;">
+          <button onclick="updateMaxHP()" style="background: rgba(224, 169, 109, 0.15); border: 1px solid rgba(224, 169, 109, 0.3); color: var(--color-wizard); border-radius: 6px; cursor: pointer; padding: 8px 16px; font-size: 13px; font-weight: 600; transition: all 0.2s;">Save</button>
+        </div>
+      </div>
+
+      <button class="close-roller-btn" onclick="closeHPOverlay()">Cancel</button>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script>
     // Tab switching logic
@@ -1779,10 +1818,11 @@
       overlay.classList.remove("active");
     }
     
-    // Press escape key to close rolling tray
+    // Press escape key to close rolling tray & HP overlay
     window.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closeRoller();
+        closeHPOverlay();
       }
     });
 
@@ -1803,12 +1843,17 @@
       });
     }
 
-    // HP Tracker localStorage & dynamic UI logic
+    // HP Tracker localStorage & dynamic UI logic (with popup overlay)
     function initHPTracker() {
       const currentHPEl = document.getElementById("currentHP");
       const maxHPEl = document.getElementById("maxHP");
       const hpBar = document.getElementById("hpBar");
-      const hpInput = document.getElementById("hpInput");
+      
+      const hpOverlay = document.getElementById("hpOverlay");
+      const popupCurrentHP = document.getElementById("popupCurrentHP");
+      const popupMaxHP = document.getElementById("popupMaxHP");
+      const hpAdjustInput = document.getElementById("hpAdjustInput");
+      const maxHPInput = document.getElementById("maxHPInput");
       
       let maxHP = parseInt(localStorage.getItem("pox_max_hp") || "41", 10);
       let currentHP = parseInt(localStorage.getItem("pox_current_hp") || "41", 10);
@@ -1818,8 +1863,24 @@
       
       updateHPBar(currentHP, maxHP);
       
-      window.adjustHP = function(isHealing) {
-        const val = parseInt(hpInput.value, 10);
+      window.openHPOverlay = function() {
+        popupCurrentHP.innerText = currentHP;
+        popupMaxHP.innerText = maxHP;
+        hpAdjustInput.value = "";
+        maxHPInput.value = maxHP;
+        hpOverlay.classList.add("active");
+      };
+      
+      window.closeHPOverlay = function() {
+        hpOverlay.classList.remove("active");
+      };
+      
+      window.setAdjustmentAmount = function(amount) {
+        hpAdjustInput.value = amount;
+      };
+      
+      window.applyHPAdjustment = function(isHealing) {
+        const val = parseInt(hpAdjustInput.value, 10);
         if (isNaN(val) || val <= 0) return;
         
         if (isHealing) {
@@ -1829,28 +1890,31 @@
         }
         
         currentHPEl.innerText = currentHP;
+        popupCurrentHP.innerText = currentHP;
         localStorage.setItem("pox_current_hp", currentHP);
         updateHPBar(currentHP, maxHP);
-        hpInput.value = "";
+        hpAdjustInput.value = "";
+        closeHPOverlay();
       };
-
-      maxHPEl.addEventListener("dblclick", function() {
-        const newMax = prompt("Enter new Max HP:", maxHP);
-        if (newMax !== null) {
-          const parsed = parseInt(newMax, 10);
-          if (!isNaN(parsed) && parsed > 0) {
-            maxHP = parsed;
-            maxHPEl.innerText = maxHP;
-            localStorage.setItem("pox_max_hp", maxHP);
-            if (currentHP > maxHP) {
-              currentHP = maxHP;
-              currentHPEl.innerText = currentHP;
-              localStorage.setItem("pox_current_hp", currentHP);
-            }
-            updateHPBar(currentHP, maxHP);
-          }
+      
+      window.updateMaxHP = function() {
+        const val = parseInt(maxHPInput.value, 10);
+        if (isNaN(val) || val <= 0) return;
+        
+        maxHP = val;
+        maxHPEl.innerText = maxHP;
+        popupMaxHP.innerText = maxHP;
+        localStorage.setItem("pox_max_hp", maxHP);
+        
+        if (currentHP > maxHP) {
+          currentHP = maxHP;
+          currentHPEl.innerText = currentHP;
+          popupCurrentHP.innerText = currentHP;
+          localStorage.setItem("pox_current_hp", currentHP);
         }
-      });
+        updateHPBar(currentHP, maxHP);
+        closeHPOverlay();
+      };
       
       function updateHPBar(cur, max) {
         const pct = Math.min(100, Math.max(0, (cur / max) * 100));
