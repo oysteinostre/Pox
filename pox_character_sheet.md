@@ -86,7 +86,7 @@
 *   **Trap Sense +1 (Ex)**: +1 bonus on Reflex saves vs. traps, +1 dodge bonus to AC vs. attacks made by traps.
 
 ### Wizard Features (Level 3)
-*   **Arcane Bond**: Greensting Scorpion familiar *(Recommended - grants +4 Initiative)* OR Bonded Object *(e.g., a ring or amulet allowing you to cast any spell you know once per day)*.
+*   **Arcane Bond**: Bonded Object (Ring) - allows Pox to cast any single spell from his spellbook once per day without it being prepared. Must be worn to cast spells without a Concentration check (DC 20 + Spell Level).
 *   **Arcane School**: Universalist *(Recommended for multiclass flexibility, grants Hand of the Apprentice)* OR specialist school (e.g., Conjuration for teleportation).
 *   **Scribe Scroll**: Bonus feat at level 1.
 *   **Cantrips**: Cast prepared 0-level spells without expending them.
@@ -102,7 +102,7 @@
 4.  **Rogue 2**: **Weapon Finesse (Rogue Talent)** *(Use Dex for light weapon attack rolls)*
 5.  **Level 3**: **Point-Blank Shot** *(+1 to hit/damage with ranged/rays within 30 ft.)*
 6.  **Rogue 3**: **Trap Sense +1 (Ex)** *(+1 saves/AC vs. traps)*
-7.  **Wizard 1**: **Arcane Bond (Familiar)** *(Greensting Scorpion familiar, +4 Initiative)*
+7.  **Wizard 1**: **Arcane Bond (Bonded Ring)** *(Cast any spell from spellbook 1/day)*
 8.  **Wizard 1**: **Arcane School (Universalist)** *(Hand of the Apprentice 6/day)*
 9.  **Wizard 1**: **Cantrips** *(Infinite casting of 0-level spells)*
 10. **Wizard 1**: **Scribe Scroll (Bonus Feat)** *(Create magic scrolls)*
